@@ -76,9 +76,9 @@ public class Tablero extends javax.swing.JFrame{
         rdmy=((int) ((Math.random()*33)+1))*15;
         comida=new Point(rdmx,rdmy);
     }
-    public static void main(String[] args) throws Exception{
-        Tablero juego= new Tablero();
-    }
+//    public static void main(String[] args) throws Exception{
+//        Tablero juego= new Tablero();
+//    }
     static ArrayList puntos=new ArrayList(50);
     public static long registro=0,frecuencia=50;
     public static Point punto, comida;

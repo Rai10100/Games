@@ -18,12 +18,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+
 public class Memorama extends JFrame {
         public Memorama(){
         this.setTitle("Memorama");
         this.setSize(wFrame, hFrame);
         this.setResizable(false);
-
+        Image miIcono=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Memorama/images/memoramaIco.png"));
+	setIconImage(miIcono);
          Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
          this.setLocation(dim.width/2-wFrame/2,dim.height/2-hFrame/2);
          setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -33,12 +35,6 @@ public class Memorama extends JFrame {
          Teclado teclado=new Teclado();
          this.addKeyListener(teclado);
          this.getContentPane().add(fondo);
-         
-            
-         
-         
-
-
     }
 
     class Fondo extends JPanel{
@@ -177,7 +173,7 @@ public class Memorama extends JFrame {
         }
         
         
-        
+       
 
     }
     
@@ -191,12 +187,32 @@ public class Memorama extends JFrame {
            
            
             this.addMouseListener(new java.awt.event.MouseAdapter() {
+                
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    front();
+//                    System.out.println("clicked");
                     
-                    comparar();
+                        
+                       comparar();   
+                        
+                }
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+//                    System.out.println("pressed");
+                    
+                        front();
+//                       comparar();   
+                        
                 } 
             });  
+       }
+       public void esperar(int segundos){
+           try {
+                        System.out.println("hilo pausado");
+            Thread.sleep(segundos*500);
+                        System.out.println("termina espera");
+            
+            } catch (Exception e) {
+            System.out.println(e);
+            }
        }
        
        public String toString (){
@@ -218,6 +234,7 @@ public class Memorama extends JFrame {
        
        public void comparar(){  /////////////////////////////////////////////////////////////////aquí me quedé
            int  igual=0;
+           
            System.out.println("empieza comparar");
 //           volteados.add(this);
            
@@ -229,26 +246,27 @@ public class Memorama extends JFrame {
                  igual=1;
                  System.out.println("ya hay igual");
                  volteados.remove(0);
-                 intento++;
+                 intento--;
                  pares++;
                  victoria();
              }  else{
-                 System.out.println(volteados.get(i)+" -> "+this);
+                 System.out.println("No se encontró igual");
              }
              
            }
               if(igual==0){
                   if(intento%2==0){
-                 System.out.println("no hay par");
                   volteados.add(this);
-                      System.out.println("Ya se agregó "+this.Id);
+                      System.out.println("no hay par. Una carta agregada: "+this.Id);
                   
                   
                   intento++;
                   }else{
+                      esperar(1);
                       this.back();
                       carta cartaAnterior=volteados.get(0);
                       cartaAnterior.back();
+                      volteados.remove(0);
                       //poss--;
                       
                       intento++;
@@ -270,6 +288,8 @@ public class Memorama extends JFrame {
        
        public void front(){
            this.setIcon(imagenFront);
+           this.revalidate();
+           
        }
        
         public void back(){
@@ -294,9 +314,10 @@ public class Memorama extends JFrame {
     
     }
 
-    public static void main(String[] args){
-        new Memorama().setVisible(true);
-    } 
+//    public static void main(String[] args){
+//        new Memorama().setVisible(true);
+//    } 
+   
    int hFrame=560,wFrame=500,a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,intento=0;
    JLabel titulo;
    ImageIcon img1,img2,img3,img4,img5,img6,img7,img8;
