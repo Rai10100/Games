@@ -1,4 +1,4 @@
-package vivorita2;
+package Frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 
 
-public class Tablero extends javax.swing.JFrame{
-    public Tablero(){
+public class Vivorita extends javax.swing.JFrame{
+    public Vivorita(){
         setTitle("Vivorita");
         setSize(widht,height);
         setResizable(false);
@@ -25,7 +25,7 @@ public class Tablero extends javax.swing.JFrame{
         Dimension dimArriba= new Dimension(495,60);
         this.setLocation(dim.width/2-widht/2,dim.height/2-height/2);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        Image miIcono=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/vivorita2/images/vivoIco.png"));
+        Image miIcono=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/vivoIco.png"));
 	setIconImage(miIcono);
         punto = new Point (widht/2-(LaVivorita.puntox/2),height/2-(LaVivorita.puntoy/2));
         ponercomida();
@@ -37,19 +37,19 @@ public class Tablero extends javax.swing.JFrame{
         titulo=new JLabel();
         cerrar.setText("");
         titulo.setFont(miletra);
-        titulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vivorita2/images/vivoIco.png")));
+        titulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/vivoIco.png")));
         titulo.setForeground(new Color(14,102,85));
         titulo.setText("Vivorita Game");
-        cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vivorita2/images/borrar.png")));
+        cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/borrar.png")));
         cerrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 System.exit(0);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vivorita2/images/borrarOsc.png")));
+                cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/borrarOsc.png")));
             }
             public void mouseExited(java.awt.event.MouseEvent evt){
-                cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vivorita2/images/borrar.png")));
+                cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/borrar.png")));
             }
         });
         
@@ -77,7 +77,7 @@ public class Tablero extends javax.swing.JFrame{
         comida=new Point(rdmx,rdmy);
     }
 //    public static void main(String[] args) throws Exception{
-//        Tablero juego= new Tablero();
+//        Vivorita juego= new Vivorita();
 //    }
     static ArrayList puntos=new ArrayList(50);
     public static long registro=0,frecuencia=50;
@@ -98,30 +98,30 @@ public class Tablero extends javax.swing.JFrame{
                 while(true){
                     if(java.lang.System.currentTimeMillis()-registro > frecuencia){
                         if(Teclado.anterior==KeyEvent.VK_UP){
-                            Tablero.punto.y=Tablero.punto.y - LaVivorita.puntoy;
-                            if(Tablero.punto.y<0) Tablero.punto.y=LaVivorita.tamy-LaVivorita.puntoy;
-                            if(Tablero.punto.y>=LaVivorita.tamy) Tablero.punto.y=0;
+                            Vivorita.punto.y=Vivorita.punto.y - LaVivorita.puntoy;
+                            if(Vivorita.punto.y<0) Vivorita.punto.y=LaVivorita.tamy-LaVivorita.puntoy;
+                            if(Vivorita.punto.y>=LaVivorita.tamy) Vivorita.punto.y=0;
                         }else if(Teclado.anterior==KeyEvent.VK_DOWN){
-                            Tablero.punto.y=Tablero.punto.y + LaVivorita.puntoy;
-                            if(Tablero.punto.y<0) Tablero.punto.y=LaVivorita.tamy-LaVivorita.puntoy;
-                            if(Tablero.punto.y>=LaVivorita.tamy) Tablero.punto.y=0;
+                            Vivorita.punto.y=Vivorita.punto.y + LaVivorita.puntoy;
+                            if(Vivorita.punto.y<0) Vivorita.punto.y=LaVivorita.tamy-LaVivorita.puntoy;
+                            if(Vivorita.punto.y>=LaVivorita.tamy) Vivorita.punto.y=0;
                         }else if(Teclado.anterior==KeyEvent.VK_LEFT){
-                            Tablero.punto.x=Tablero.punto.x - LaVivorita.puntox;
-                            if(Tablero.punto.x<0) Tablero.punto.x=LaVivorita.tamx-LaVivorita.puntox;
-                            if(Tablero.punto.x>=Tablero.widht) Tablero.punto.x=0;
+                            Vivorita.punto.x=Vivorita.punto.x - LaVivorita.puntox;
+                            if(Vivorita.punto.x<0) Vivorita.punto.x=LaVivorita.tamx-LaVivorita.puntox;
+                            if(Vivorita.punto.x>=Vivorita.widht) Vivorita.punto.x=0;
                         }else if(Teclado.anterior==KeyEvent.VK_RIGHT){
-                            Tablero.punto.x=Tablero.punto.x + LaVivorita.puntox;
-                            if(Tablero.punto.x<0) Tablero.punto.x=LaVivorita.tamx-LaVivorita.puntox;
-                            if(Tablero.punto.x>=Tablero.widht) Tablero.punto.x=0;
+                            Vivorita.punto.x=Vivorita.punto.x + LaVivorita.puntox;
+                            if(Vivorita.punto.x<0) Vivorita.punto.x=LaVivorita.tamx-LaVivorita.puntox;
+                            if(Vivorita.punto.x>=Vivorita.widht) Vivorita.punto.x=0;
                         }
                         //---------------------------------------------------------------------------Aquí falta
-                        if(Tablero.punto.x==Tablero.comida.x && Tablero.punto.y==Tablero.comida.y){
+                        if(Vivorita.punto.x==Vivorita.comida.x && Vivorita.punto.y==Vivorita.comida.y){
                             ponercomida();
 
 
                         }
 
-                        Tablero.panelVivorita.repaint();
+                        Vivorita.panelVivorita.repaint();
 
                         registro=java.lang.System.currentTimeMillis();
                     }
@@ -134,10 +134,10 @@ class LaVivorita extends javax.swing.JPanel {
     public void paintComponent(Graphics cuadrito){
         super.paintComponent(cuadrito);
         cuadrito.setColor(new Color(53,35,165));
-        cuadrito.fillRect(Tablero.punto.x, Tablero.punto.y, puntox, puntoy);
+        cuadrito.fillRect(Vivorita.punto.x, Vivorita.punto.y, puntox, puntoy);
         setSize(tamx,tamy);
         cuadrito.setColor(Color.BLUE);
-        cuadrito.fillRect(Tablero.comida.x, Tablero.comida.y, puntox, puntoy);
+        cuadrito.fillRect(Vivorita.comida.x, Vivorita.comida.y, puntox, puntoy);
         
     }
   static int  puntox=15, puntoy=15;

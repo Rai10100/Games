@@ -1,7 +1,6 @@
 package Frames;
 
 
-import Memorama.Memorama;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,8 +11,8 @@ import java.awt.Toolkit;
 import javax.swing.JButton;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import vivorita2.Tablero;
 
 
 public class Inicio {
@@ -34,8 +33,13 @@ class Principal extends javax.swing.JFrame{
         dimBtn=new Dimension(100,45);
         this.setLocation(dim.width/2-widht/2,dim.height/2-height/2);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        Image miIcono=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/vivorita2/images/gameIco.png"));
+        try{
+            Image miIcono=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/gameIco.png"));
 	setIconImage(miIcono);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"Hubo un error en la carga del ícono");
+        }
+        
         this.setLayout(new BorderLayout());
         
         
@@ -53,7 +57,7 @@ class Principal extends javax.swing.JFrame{
         });
          btnVivorita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                 new Tablero().setVisible(true); 
+                 new Vivorita().setVisible(true); 
                  ocultar();
                  }
 

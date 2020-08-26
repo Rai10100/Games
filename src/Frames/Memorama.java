@@ -1,4 +1,4 @@
-package Memorama;   
+package Frames;   
 
 import java.awt.BorderLayout;
 import java.awt.Color;
