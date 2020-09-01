@@ -112,11 +112,12 @@ public class Laberinto extends javax.swing.JFrame{
         public void paint(Graphics g){
             g.setColor(Color.blue);
             int[][] laberinto= regresaLaberinto();
-            for(int i=1;i<11;i++){
-                for(int j=1;j<22;j++){
+            for(int i=0;i<11;i++){
+                for(int j=0;j<22;j++){
                     if(laberinto[i][j]==1){
-                       g.fillRect(i*40, j*40, 30, 30);
-                       g.drawRect(i*40, j*40, 30, 30);
+                       g.fillRect(j*40, i*40, 30, 30);
+                       g.drawRect(j*40, i*40, 30, 30);
+                       
                     } 
                             
                 }
