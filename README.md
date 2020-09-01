@@ -7,5 +7,5 @@ No lo sé.
 ### ¿Cuántosjuegos serán?
 No lo sé.
 
-### ¿Cuál es el objetivo?
-**No lo sé.**
+### ¿Por qué?
+En alguna parte de la carrera a todos nos dejan de tarea programar algún juego básico. Pues aquí están todos esos que servirían de tarea a alguien.
