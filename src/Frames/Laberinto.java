@@ -21,7 +21,7 @@ public class Laberinto extends javax.swing.JFrame{
         this.setUndecorated(false);
         this.addKeyListener(new Teclado());
         try{
-            Image miIcono=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/memoramaIco.png"));
+            Image miIcono=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/LBIco.png"));
             setIconImage(miIcono);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Hubo un errror al cargar la imagen del ícono. Error "+e);
@@ -81,6 +81,7 @@ public class Laberinto extends javax.swing.JFrame{
           }
             
         public void paint(Graphics g){
+            new Bounce().paint(g);
             new Enredadera().paint(g);
         }
         
@@ -99,21 +100,47 @@ public class Laberinto extends javax.swing.JFrame{
     public class Bounce {
        
         public void paint(Graphics g){
-            
+            g.setColor(Color.RED);
+            g.fillOval(x, y, tamx, tamy);
+            g.drawOval(x, y, tamx, tamy);
         }
-        
+        int x=30,y=30,tamx=30,tamy=30;
     }
     
     public class Enredadera{
         
         public void paint(Graphics g){
             g.setColor(Color.blue);
-            g.fillRect(40, 100, 100, 10);
-            g.drawRect(40, 100, 100, 10);
+            int[][] laberinto= regresaLaberinto();
+            for(int i=1;i<11;i++){
+                for(int j=1;j<22;j++){
+                    if(laberinto[i][j]==1){
+                       g.fillRect(i*40, j*40, 30, 30);
+                       g.drawRect(i*40, j*40, 30, 30);
+                    } 
+                            
+                }
+            }
+        }
+        public int[][] regresaLaberinto(){
+        return laberinto1;
         }
         
-    }
-    
+        int[][] laberinto1={
+            {1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        }; 
+        
+    }    
     class Teclado extends java.awt.event.KeyAdapter{
         public void keyPressed (KeyEvent tecla){
             presionada=tecla.getKeyCode();
