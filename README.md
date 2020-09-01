@@ -8,4 +8,4 @@ No lo sé.
 No lo sé.
 
 ### ¿Por qué?
-En alguna parte de la carrera a todos nos dejan de tarea programar algún juego básico. Pues aquí están todos esos que servirían de tarea a alguien.
+En alguna parte de la carrera a todos nos dejan de tarea programar algún juego básico. Pues aquí estrán algunos de esos que servirían de tarea a alguien.
