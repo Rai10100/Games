@@ -9,6 +9,8 @@ import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,16 +33,18 @@ public class Laberinto extends javax.swing.JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 //        this.setLayout(new BorderLayout());
         this.add(new FondoArriba(),BorderLayout.NORTH);
-        this.add(new FondoAbajo(),BorderLayout.CENTER);
+        this.add(fondoBajo,BorderLayout.CENTER);
+        
+        
+        Ciclo ciclo =new Ciclo();
+        Thread hilo =new Thread(ciclo);
+        hilo.start();
         
     }
     
-    public class FondoArriba extends javax.swing.JPanel{
+    class FondoArriba extends javax.swing.JPanel{
         FondoArriba(){
             this.setBackground(java.awt.Color.ORANGE);
-//            Dimension cuadroarriba= new Dimension(wFrame,100);
-//            this.setPreferredSize(cuadroarriba);
-            
             ImageIcon titleimg = new ImageIcon(getClass().getResource("/Images/LBtitle.png"));
             titulo=new JLabel("",titleimg,JLabel.CENTER);
             ImageIcon dudasimg = new ImageIcon(getClass().getResource("/Images/LBdudas.png"));
@@ -56,67 +60,65 @@ public class Laberinto extends javax.swing.JFrame{
             score.setBackground(Color.ORANGE);
             Dimension scoreTam=new Dimension(90,50);
             score.setPreferredSize(scoreTam);
-            
             score.add(nivel,BorderLayout.NORTH);
             score.add(nivel2,BorderLayout.CENTER);
-            
-            
             this.add(titulo);
             this.add(dudas);
             this.add(score);
-           
-            
-            
-            
-            
         }
-        
-        
     }
     
-    public class FondoAbajo extends javax.swing.JPanel{
+    
+    ////////----------------------------------------------------------------------------------------------------------------------------------
+     class FondoAbajo extends javax.swing.JPanel{
           FondoAbajo(){
               this.setBackground(java.awt.Color.ORANGE);
-              
           }
-            
         public void paint(Graphics g){
+            super.paint(g);
             new Bounce().paint(g);
             new Enredadera().paint(g);
         }
         
     }
     
+     
+     
     public static void main(String[] args) {
         new Laberinto().setVisible(true);
     }
     
+    private  FondoAbajo fondoBajo = new FondoAbajo();
     private JPanel score;
-    private int wFrame=1000, hFrame=650;
+    private int wFrame=1004, hFrame=657;
     private JLabel titulo, dudas,nivel,nivel2;
+    private static int Bouncex=40,Bouncey=40,Bouncetamx=38,Bouncetamy=38;
     
     
     
-    public class Bounce {
+    class Bounce {
+         Teclado teclas=new Teclado();
        
         public void paint(Graphics g){
             g.setColor(Color.RED);
-            g.fillOval(x, y, tamx, tamy);
-            g.drawOval(x, y, tamx, tamy);
+            g.fillOval(Bouncex, Bouncey, Bouncetamx, Bouncetamy);
+//            g.drawOval(x, y, tamx, tamy);
+
+            
         }
-        int x=30,y=30,tamx=30,tamy=30;
+        
     }
     
-    public class Enredadera{
+     class Enredadera{
         
         public void paint(Graphics g){
             g.setColor(Color.blue);
             int[][] laberinto= regresaLaberinto();
-            for(int i=0;i<11;i++){
-                for(int j=0;j<22;j++){
+            for(int i=0;i<14;i++){
+                for(int j=0;j<25;j++){
                     if(laberinto[i][j]==1){
-                       g.fillRect(j*40, i*40, 30, 30);
-                       g.drawRect(j*40, i*40, 30, 30);
+                       g.fillRect(j*40, i*40, 38, 38);
+//                       g.drawRect(j*40, i*40, 30, 30);
                        
                     } 
                             
@@ -128,30 +130,112 @@ public class Laberinto extends javax.swing.JFrame{
         }
         
         int[][] laberinto1={
-            {1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-        }; 
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,0,0,0,1},
+            {1,1,1,0,1,0,1,1,1,0,1,0,0,0,0,1,1,1,1,0,1,0,1,0,1},
+            {1,0,0,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1},
+            {1,0,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,1,0,1,0,1,0,1},
+            {1,0,1,1,1,1,0,0,1,1,1,1,0,1,0,0,0,0,1,0,1,0,1,0,1},
+            {1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,1,0,1,0,1},
+            {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1},
+            {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1,0,1,0,1},
+            {1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1},
+            {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1},
+            {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1},
+            {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
+        int[][] laberinto2={
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
+        int[][] laberinto3={
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
+        int[][] laberinto4={
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
         
-    }    
+    } 
+    
+    
     class Teclado extends java.awt.event.KeyAdapter{
+        
         public void keyPressed (KeyEvent tecla){
             presionada=tecla.getKeyCode();
             if(presionada== KeyEvent.VK_ESCAPE){
                 int respuesta=JOptionPane.showConfirmDialog(null,"-- SALIR --","¿Estás seguro?",0,3);
                 if (respuesta==0)System.exit(0);
-            }else if(presionada==KeyEvent.VK_UP){
-
             }
+            else if(presionada==KeyEvent.VK_DOWN){
+                Bouncey=Bouncey+40;
+                System.out.println("Abajo");
+            }else if (presionada==KeyEvent.VK_UP){
+                 Bouncey=Bouncey-40;
+                System.out.println("Arriba");
+            }else if (presionada==KeyEvent.VK_RIGHT){
+                Bouncex=Bouncex+40;
+                System.out.println("Derecha");
+            }else if (presionada==KeyEvent.VK_LEFT){
+                Bouncex=Bouncex-40;
+                System.out.println("Izquierda");
+            }
+//            
         }
-            int presionada, anterior; 
+           int presionada; 
         }
+    
+    class Ciclo extends Thread{
+        
+        Teclado teclas=new Teclado();
+            public void run(){
+                while(true){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Laberinto.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    fondoBajo.repaint();
+                    
+                }
+            }
+    }
 }
