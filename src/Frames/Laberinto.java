@@ -34,11 +34,11 @@ public class Laberinto extends javax.swing.JFrame{
 //        this.setLayout(new BorderLayout());
         this.add(new FondoArriba(),BorderLayout.NORTH);
         this.add(fondoBajo,BorderLayout.CENTER);
+       
         
-        
-        Ciclo ciclo =new Ciclo();
-        Thread hilo =new Thread(ciclo);
-        hilo.start();
+//        Ciclo ciclo =new Ciclo();
+//        Thread hilo =new Thread(ciclo);
+//        hilo.start();
         
     }
     
@@ -73,11 +73,12 @@ public class Laberinto extends javax.swing.JFrame{
      class FondoAbajo extends javax.swing.JPanel{
           FondoAbajo(){
               this.setBackground(java.awt.Color.ORANGE);
+              enredadera.estableceLaberinto();
           }
         public void paint(Graphics g){
             super.paint(g);
             new Bounce().paint(g);
-            new Enredadera().paint(g);
+            enredadera.paint(g);
         }
         
     }
@@ -87,7 +88,7 @@ public class Laberinto extends javax.swing.JFrame{
     public static void main(String[] args) {
         new Laberinto().setVisible(true);
     }
-    
+    private Enredadera enredadera=new Enredadera();
     private  FondoAbajo fondoBajo = new FondoAbajo();
     private JPanel score;
     private int wFrame=1004, hFrame=657;
@@ -103,21 +104,18 @@ public class Laberinto extends javax.swing.JFrame{
             g.setColor(Color.RED);
             g.fillOval(Bouncex, Bouncey, Bouncetamx, Bouncetamy);
 //            g.drawOval(x, y, tamx, tamy);
-
-            
         }
-        
     }
     
      class Enredadera{
         
         public void paint(Graphics g){
             g.setColor(Color.blue);
-            int[][] laberinto= regresaLaberinto();
+//            int[][] laberinto= regresaLaberinto();
             for(int i=0;i<14;i++){
                 for(int j=0;j<25;j++){
-                    if(laberinto[i][j]==1){
-                       g.fillRect(j*40, i*40, 38, 38);
+                    if(laberintoActual[i][j]==1){
+                       g.fillRect(j*Bloquex, i*Bloquey, Bloquetamx, Bloquetamy);
 //                       g.drawRect(j*40, i*40, 30, 30);
                        
                     } 
@@ -125,11 +123,34 @@ public class Laberinto extends javax.swing.JFrame{
                 }
             }
         }
-        public int[][] regresaLaberinto(){
-        return laberinto1;
+        
+        public boolean esMeta(){
+            if (Bouncex==Bloquex*bloquemetax && Bouncey==Bloquey*bloquemetay)return true;
+            else return false;
         }
         
-        int[][] laberinto1={
+        public void esBloque(){
+            System.out.println(Bouncex/40 +" -> "+ Bouncey/40);
+//            if(laberintoActual[Bouncex/40][Bouncey/40]==1){ 
+//                System.out.println("mamo");
+//                
+//            }
+        }
+       
+        public void setMeta(int coordenadaX, int coordenadaY){
+            bloquemetax=coordenadaX;
+            bloquemetay=coordenadaY;
+        }
+        
+        public void estableceLaberinto(){
+        laberintoActual=laberinto1;
+        }
+        
+       
+        private int bloquemetax=23,bloquemetay=12;
+        private int Bloquex=40,Bloquey=40,Bloquetamx=38,Bloquetamy=38;
+        private int[][] laberintoActual;
+        private int[][] laberinto2={
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,0,0,0,1},
             {1,1,1,0,1,0,1,1,1,0,1,0,0,0,0,1,1,1,1,0,1,0,1,0,1},
@@ -145,7 +166,23 @@ public class Laberinto extends javax.swing.JFrame{
             {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
-        int[][] laberinto2={
+        private int[][] laberinto1={
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
+        private int[][] laberinto3={
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -161,7 +198,7 @@ public class Laberinto extends javax.swing.JFrame{
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
-        int[][] laberinto3={
+        private int[][] laberinto4={
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -177,22 +214,8 @@ public class Laberinto extends javax.swing.JFrame{
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
-        int[][] laberinto4={
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-        };
+        
+        
         
     } 
     
@@ -207,35 +230,31 @@ public class Laberinto extends javax.swing.JFrame{
             }
             else if(presionada==KeyEvent.VK_DOWN){
                 Bouncey=Bouncey+40;
-                System.out.println("Abajo");
+                fondoBajo.repaint();
+                enredadera.esBloque();
+                if(enredadera.esMeta())JOptionPane.showMessageDialog(null, "Meta alcanzada","  -- MUY BIEN --  ",1);
+//                System.out.println("Abajo");
             }else if (presionada==KeyEvent.VK_UP){
                  Bouncey=Bouncey-40;
-                System.out.println("Arriba");
+                 fondoBajo.repaint();
+                 enredadera.esBloque();
+                 if(enredadera.esMeta())JOptionPane.showMessageDialog(null, "Meta alcanzada","  -- MUY BIEN --  ",1);
+//                System.out.println("Arriba");
             }else if (presionada==KeyEvent.VK_RIGHT){
                 Bouncex=Bouncex+40;
-                System.out.println("Derecha");
+                fondoBajo.repaint();
+                enredadera.esBloque();
+                if(enredadera.esMeta())JOptionPane.showMessageDialog(null, "Meta alcanzada","  -- MUY BIEN --  ",1);
+//                System.out.println("Derecha");
             }else if (presionada==KeyEvent.VK_LEFT){
                 Bouncex=Bouncex-40;
-                System.out.println("Izquierda");
+                fondoBajo.repaint();
+                enredadera.esBloque();
+                if(enredadera.esMeta())JOptionPane.showMessageDialog(null, "Meta alcanzada","  -- MUY BIEN --  ",1);
+//                System.out.println("Izquierda");
             }
 //            
         }
            int presionada; 
         }
-    
-    class Ciclo extends Thread{
-        
-        Teclado teclas=new Teclado();
-            public void run(){
-                while(true){
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Laberinto.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    fondoBajo.repaint();
-                    
-                }
-            }
-    }
 }
