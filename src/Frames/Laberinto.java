@@ -91,7 +91,7 @@ public class Laberinto extends javax.swing.JFrame{
     private Enredadera enredadera=new Enredadera();
     private  FondoAbajo fondoBajo = new FondoAbajo();
     private JPanel score;
-    private int wFrame=1004, hFrame=657;
+    private int wFrame=1004, hFrame=657, presionada ;
     private JLabel titulo, dudas,nivel,nivel2;
     private static int Bouncex=40,Bouncey=40,Bouncetamx=38,Bouncetamy=38;
     
@@ -129,12 +129,20 @@ public class Laberinto extends javax.swing.JFrame{
             else return false;
         }
         
-        public void esBloque(){
-            System.out.println(Bouncex/40 +" -> "+ Bouncey/40);
-//            if(laberintoActual[Bouncex/40][Bouncey/40]==1){ 
-//                System.out.println("mamo");
-//                
-//            }
+        public boolean esBloque(){
+            if(presionada==KeyEvent.VK_DOWN){
+                if(laberintoActual[(Bouncey+40)/40][(Bouncex)/40]==1)return true;
+                    else return false;
+            }else if (presionada==KeyEvent.VK_UP){
+                if(laberintoActual[(Bouncey-40)/40][(Bouncex)/40]==1)return true;
+                    else return false;
+            }else if (presionada==KeyEvent.VK_RIGHT){
+                if(laberintoActual[(Bouncey)/40][(Bouncex+40)/40]==1)return true;
+                    else return false;
+            }else if (presionada==KeyEvent.VK_LEFT){
+                if(laberintoActual[(Bouncey)/40][(Bouncex-40)/40]==1)return true;
+                    else return false;
+            }else return false;
         }
        
         public void setMeta(int coordenadaX, int coordenadaY){
@@ -229,32 +237,40 @@ public class Laberinto extends javax.swing.JFrame{
                 if (respuesta==0)System.exit(0);
             }
             else if(presionada==KeyEvent.VK_DOWN){
-                Bouncey=Bouncey+40;
-                fondoBajo.repaint();
-                enredadera.esBloque();
+                if (!enredadera.esBloque()){
+                    Bouncey=Bouncey+40;
+                    fondoBajo.repaint();
+                }
                 if(enredadera.esMeta())JOptionPane.showMessageDialog(null, "Meta alcanzada","  -- MUY BIEN --  ",1);
-//                System.out.println("Abajo");
             }else if (presionada==KeyEvent.VK_UP){
-                 Bouncey=Bouncey-40;
-                 fondoBajo.repaint();
-                 enredadera.esBloque();
+                 if (!enredadera.esBloque()){
+                     Bouncey=Bouncey-40;
+                fondoBajo.repaint();
+                 }
+                
                  if(enredadera.esMeta())JOptionPane.showMessageDialog(null, "Meta alcanzada","  -- MUY BIEN --  ",1);
 //                System.out.println("Arriba");
             }else if (presionada==KeyEvent.VK_RIGHT){
+                if (!enredadera.esBloque()){
                 Bouncex=Bouncex+40;
                 fondoBajo.repaint();
-                enredadera.esBloque();
+                }
+                
                 if(enredadera.esMeta())JOptionPane.showMessageDialog(null, "Meta alcanzada","  -- MUY BIEN --  ",1);
 //                System.out.println("Derecha");
             }else if (presionada==KeyEvent.VK_LEFT){
-                Bouncex=Bouncex-40;
+                 if (!enredadera.esBloque()){
+                 Bouncex=Bouncex-40;
                 fondoBajo.repaint();
-                enredadera.esBloque();
+                 }
+                
                 if(enredadera.esMeta())JOptionPane.showMessageDialog(null, "Meta alcanzada","  -- MUY BIEN --  ",1);
 //                System.out.println("Izquierda");
+            }else{
+                
             }
 //            
         }
-           int presionada; 
-        }
+           
+    }
 }
