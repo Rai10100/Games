@@ -45,6 +45,18 @@ public class Laberinto extends javax.swing.JFrame{
             this.setBackground(java.awt.Color.ORANGE);
             ImageIcon titleimg = new ImageIcon(getClass().getResource("/Images/LBtitle.png"));
             titulo=new JLabel("",titleimg,JLabel.CENTER);
+            titulo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() { //El título sirve para arrastrar el frame
+                public void mouseDragged(java.awt.event.MouseEvent evt) {
+                     mueveFrame(evt);
+                }
+            });
+            titulo.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    seleccionaFrame(evt);
+                }
+            });
+            
+            
             ImageIcon dudasimg = new ImageIcon(getClass().getResource("/Images/LBdudas.png"));
             dudas=new JLabel("",dudasimg,JLabel.CENTER);
             Dimension dudasTam=new Dimension(90,60);
@@ -63,7 +75,7 @@ public class Laberinto extends javax.swing.JFrame{
             dudas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 JOptionPane.showMessageDialog(null,"<html>¿Tienes dudas? El juego es muy sencillo jaja<br>"
-                        + "Para salir del juego pulsa la tecla 'ESC'</html>");
+                        + "Para salir del juego pulsa la tecla 'ESC'<br>Para moverte usa las flechas de tu teclado<br><br>Si quiere más ayuda vuelve al juego y pulsa 'A' de 'Ayuuuda'</html>","¿¿¿¡Enserio!???",-1);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 dudas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/LBdudasOsc.png")));
@@ -71,7 +83,7 @@ public class Laberinto extends javax.swing.JFrame{
             public void mouseExited(java.awt.event.MouseEvent evt){
                 dudas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/LBdudas.png")));
             }
-        });
+            });
             this.add(titulo);
             this.add(dudas);
             this.add(score);
@@ -79,11 +91,22 @@ public class Laberinto extends javax.swing.JFrame{
             
             
         }
+        
+    }
+    public void seleccionaFrame(java.awt.event.MouseEvent evt){
+        xpos=evt.getX();
+        ypos=evt.getY();
+    }
+    
+    public void mueveFrame(java.awt.event.MouseEvent evt){
+        int x=evt.getXOnScreen();    
+        int y=evt.getYOnScreen();
+        this.setLocation(x-xpos-29, y-ypos-6);
     }
     
     
     ////////----------------------------------------------------------------------------------------------------------------------------------
-     class FondoAbajo extends javax.swing.JPanel{
+    class FondoAbajo extends javax.swing.JPanel{
           FondoAbajo(){
               this.setBackground(java.awt.Color.ORANGE);
 //              enredadera.estableceLaberinto(0);
@@ -106,7 +129,7 @@ public class Laberinto extends javax.swing.JFrame{
     private Enredadera enredadera=new Enredadera();
     private FondoAbajo fondoBajo = new FondoAbajo();
     private JPanel score;
-    private int wFrame=999, hFrame=629, presionada ;
+    private int wFrame=999, hFrame=629, presionada,xpos,ypos ;
     private JLabel titulo, dudas,nivel,nivel2;
     private static int Bouncex=40,Bouncey=40,Bouncetamx=38,Bouncetamy=38;
     
@@ -150,28 +173,28 @@ public class Laberinto extends javax.swing.JFrame{
             if (Nivel==0){
                 enredadera.estableceLaberinto(0);
 //                fondoBajo.repaint();
-                JOptionPane.showMessageDialog(null,"<html>Tú eres la bolita morada,la meta es el cuadro rosita.<br> Muévete con las flechas de dirección."
+                JOptionPane.showMessageDialog(null,"<html>Tú eres la bolita morada,la meta es el cuadro rosita.<br> Muévete con las flechas de dirección. "
                         + "Para salir pulsa 'ESC'<br>¡Ya sabes que hacer! </html>","Bienvenid@",1);
             }else if(Nivel==1){
                 nivel2.setText("1");
                 enredadera.estableceLaberinto(1);
                 enredadera.ubicaBounce(1,1);
                 fondoBajo.repaint();
-                JOptionPane.showMessageDialog(null,"Vale! Nivel 1");
+                JOptionPane.showMessageDialog(null,"Bienvenido al nivel 1");
                 
             }else if(Nivel==2){
                 nivel2.setText("2");
                 enredadera.estableceLaberinto(2);
                 enredadera.ubicaBounce(1,1);
                 fondoBajo.repaint();
-                JOptionPane.showMessageDialog(null,"Bienvenido al nivel 2");
+                JOptionPane.showMessageDialog(null,"Vale! Nivel 2");
                 
             }else if(Nivel==3){
                 nivel2.setText("3");
                 enredadera.estableceLaberinto(3);
                 enredadera.ubicaBounce(1,1);
                 fondoBajo.repaint();
-                JOptionPane.showMessageDialog(null,"Bienvenido al nivel 3");
+                JOptionPane.showMessageDialog(null,"Tercer Nivel. Cuidado con los bloques-bomba");
                 
             }else if(Nivel==4){
                 
@@ -179,18 +202,33 @@ public class Laberinto extends javax.swing.JFrame{
                 enredadera.estableceLaberinto(4);
                 enredadera.ubicaBounce(1,1);
                 fondoBajo.repaint();
-                JOptionPane.showMessageDialog(null,"Bienvenido al nivel 4");
+                JOptionPane.showMessageDialog(null,"Nivel 4, se ve mejor...");
             }else if(Nivel==5){
                 nivel2.setText("5");
                 enredadera.estableceLaberinto(5);
                 enredadera.ubicaBounce(1,1);
                 fondoBajo.repaint();
-                JOptionPane.showMessageDialog(null,"Bienvenido al nivel 5");
+                JOptionPane.showMessageDialog(null,"<html>Ahora nivel 5.<br>   ¡Suerte!</html> ");
             }else if(Nivel==6){
                 nivel2.setText("6");
+                enredadera.estableceLaberinto(6);
+                enredadera.ubicaBounce(23,1);
+                bloquemetax=16;
+                bloquemetay=4;
+                fondoBajo.repaint();
+                JOptionPane.showMessageDialog(null,"Este es el nivel 6");
             }else if(Nivel==7){
                 nivel2.setText("7");
-            }                      
+                enredadera.estableceLaberinto(7);
+                enredadera.ubicaBounce(2,2);
+                bloquemetax=2;
+                bloquemetay=8;
+                fondoBajo.repaint();
+                JOptionPane.showMessageDialog(null,"Último nivel.");
+            }else if(Nivel==8){
+                JOptionPane.showMessageDialog(null,"El juego ha terminado, Adiós.","-- Fin del juego",1);
+                System.exit(0);
+            }                                
             
             
             
@@ -204,7 +242,7 @@ public class Laberinto extends javax.swing.JFrame{
         public void esMeta(){
             if (Bouncex==Bloquex*bloquemetax && Bouncey==Bloquey*bloquemetay){
                 if(primeraVezMeta){
-                    JOptionPane.showMessageDialog(null, "Meta alcanzada","  -- MUY BIEN --  ",1);
+                    JOptionPane.showMessageDialog(null, "¡Meta alcanzada! Simple y fácil...","  -- MUY BIEN --  ",1);
                     primeraVezMeta=false;
                 }
                 Nivel++;
@@ -221,7 +259,9 @@ public class Laberinto extends javax.swing.JFrame{
                     primeraVezBomba++;
                     JOptionPane.showMessageDialog(null, "Caíste en una bomba, debes empezar de nuevo","  --      ¡¡¡¡¡¡ BOMBA !!!!!! --     ",0);
                 }
-                ubicaBounce(1,1);
+                if (Nivel==6) ubicaBounce(23,1);
+                else if(Nivel==7) ubicaBounce(2,2);
+                  else  ubicaBounce(1,1);
             }
             
         }
@@ -267,51 +307,51 @@ public class Laberinto extends javax.swing.JFrame{
         private int[][] laberintoActual;
         private int[][] laberinto7={
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,0,0,0,1},
-            {1,1,1,0,1,0,1,1,1,0,1,0,0,0,0,1,1,1,1,0,1,0,1,0,1},
-            {1,0,0,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1},
-            {1,0,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,1,0,1,0,1,0,1},
-            {1,0,1,1,1,1,0,0,1,1,1,1,0,1,0,0,0,0,1,0,1,0,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,1,0,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1,0,1,0,1},
-            {1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1},
-            {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1},
-            {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,2,1},
+            {1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1},
+            {1,3,0,0,0,3,3,3,3,3,3,3,3,3,0,0,0,0,0,3,3,3,3,3,1},
+            {1,3,0,3,0,3,3,3,3,3,3,3,3,3,0,3,3,3,0,3,3,3,3,3,1},
+            {1,3,0,0,0,3,0,0,0,3,0,0,0,3,0,0,0,3,0,3,3,3,3,3,1},
+            {1,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,3,3,0,3,3,3,3,3,1},
+            {1,3,0,3,0,0,0,3,0,0,0,3,0,0,0,0,0,3,0,0,0,0,3,3,1},
+            {1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,3,3,1},
+            {1,3,2,0,0,3,3,3,3,3,3,3,3,0,3,0,3,3,3,3,3,0,0,0,1},
+            {1,3,3,3,0,3,0,3,0,3,0,3,3,0,3,0,3,3,3,3,3,3,3,0,1},
+            {1,3,3,3,0,3,0,3,0,3,0,3,3,0,0,0,3,3,3,0,0,0,0,0,1},
+            {1,3,0,3,0,3,0,3,0,3,0,3,3,3,3,0,3,0,0,0,3,3,3,3,1},
+            {1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
-        private int[][] laberinto6={
+        private int[][] laberinto6={//En este cambia meta y ubicación bounce
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,0,0,0,1},
-            {1,1,1,0,1,0,1,0,1,0,1,0,0,0,0,1,1,1,1,0,1,0,1,0,1},
-            {1,0,0,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1},
-            {1,0,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,1,0,1,0,1,0,1},
-            {1,0,1,1,1,1,1,0,1,1,1,1,0,1,0,0,0,0,1,0,1,0,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,1,0,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1,0,1,0,1},
-            {1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1},
-            {1,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,1,1,1,1},
-            {1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,2,1},
+            {1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,1},
+            {1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,1},
+            {1,3,0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,3,3,3,3,0,0,0,1},
+            {1,3,0,0,0,3,0,0,0,0,0,3,0,3,3,3,2,3,0,0,3,0,3,3,1},
+            {1,0,3,3,0,3,0,3,3,3,0,3,0,0,3,3,3,3,3,0,3,0,3,3,1},
+            {1,0,3,0,0,3,0,0,0,3,0,3,3,0,0,0,0,0,0,0,3,0,0,0,1},
+            {1,0,0,3,0,3,3,3,0,3,3,0,0,0,3,3,3,3,3,3,3,3,3,0,1},
+            {1,3,0,3,0,0,0,3,0,3,3,3,3,0,0,0,0,0,0,0,0,0,3,0,1},
+            {1,3,0,3,3,3,0,3,0,3,0,0,0,3,3,3,3,3,3,3,3,0,3,0,1},
+            {1,0,0,0,0,3,0,3,0,0,0,3,0,0,0,0,0,0,0,0,0,0,3,0,1},
+            {1,0,3,3,3,3,0,3,3,3,0,3,3,3,3,3,3,3,3,3,3,3,3,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
         private int[][] laberinto5={
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,3,0,0,0,0,0,1,1,1,3,0,0,0,0,0,0,3,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,3,0,0,0,0,0,1,1,1,3,0,0,0,0,0,0,3,0,0,0,3},
             {1,3,3,0,1,0,3,0,3,0,1,0,0,0,0,3,1,1,1,0,1,0,1,0,1},
-            {1,0,0,0,1,0,3,0,1,0,1,0,3,1,1,1,1,0,1,0,1,0,1,0,1},
+            {1,0,0,0,1,0,3,0,1,0,1,0,3,1,1,1,1,0,1,0,3,0,1,0,3},
             {1,0,3,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,3,0,1,0,3,0,1},
-            {1,0,1,1,1,1,3,0,3,1,1,3,0,1,0,1,1,1,1,0,3,0,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,0,1,0,1,0,1},
-            {1,0,1,0,1,1,1,1,1,0,1,1,0,1,0,1,1,0,0,0,0,0,1,0,1},
+            {1,0,3,1,1,1,3,0,3,1,1,3,0,1,0,1,1,1,1,0,3,0,1,0,1},
+            {1,0,3,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,0,1,0,1,0,1},
+            {1,0,3,0,3,1,3,3,3,0,1,1,0,1,0,1,1,0,0,0,0,0,1,0,1},
             {1,0,3,0,0,0,0,0,0,0,0,1,0,3,1,1,0,0,3,1,1,0,1,0,1},
-            {1,0,1,1,1,1,1,1,0,1,0,0,0,0,0,1,0,0,1,0,1,0,3,0,1},
+            {1,0,3,3,1,3,1,3,0,1,0,0,0,0,0,1,0,0,1,0,1,0,3,0,1},
             {1,0,1,0,0,0,1,0,0,1,0,1,0,1,1,1,3,0,1,0,0,0,0,0,1},
-            {1,0,3,0,1,0,1,0,1,1,1,1,0,1,0,0,0,0,1,1,1,1,1,1,1},
+            {1,0,3,0,1,0,1,0,3,1,1,1,0,1,0,0,0,0,3,1,1,1,1,1,1},
             {1,0,0,0,1,0,3,0,0,0,0,0,0,0,0,1,3,0,0,0,0,0,0,2,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+            {1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1}
         };
         private int[][] laberinto4={
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -402,10 +442,6 @@ public class Laberinto extends javax.swing.JFrame{
     class Teclado extends java.awt.event.KeyAdapter{
         
         public void keyPressed (KeyEvent tecla){
-//            if (primerMovimiento==0) {
-//                enredadera.nivel();
-//                primerMovimiento++;
-//            }else{
             presionada=tecla.getKeyCode();
             if(presionada== KeyEvent.VK_ESCAPE){
                 int respuesta=JOptionPane.showConfirmDialog(null,"-- SALIR --","¿Estás seguro?",0,3);
@@ -426,19 +462,14 @@ public class Laberinto extends javax.swing.JFrame{
                      enredadera.esMeta();
                 fondoBajo.repaint();
                  }
-                
-//                 enredadera.esMeta();
-//                System.out.println("Arriba");
             }else if (presionada==KeyEvent.VK_RIGHT){
                 if (!enredadera.esBloque()){
                 Bouncex=Bouncex+40;
                 enredadera.esBomba();
                 enredadera.esMeta();
                 fondoBajo.repaint();
-                }
                 
-//                enredadera.esMeta();
-//                System.out.println("Derecha");
+                }
             }else if (presionada==KeyEvent.VK_LEFT){
                  if (!enredadera.esBloque()){
                  Bouncex=Bouncex-40;
@@ -446,9 +477,9 @@ public class Laberinto extends javax.swing.JFrame{
                  enredadera.esMeta();
                 fondoBajo.repaint();
                  }
-                
-//                enredadera.esMeta();
-//                System.out.println("Izquierda");
+            }else if(presionada==KeyEvent.VK_A){
+                JOptionPane.showMessageDialog(null,"<html>Si no entiende como funciona el juego "
+                        + "mejor deje de jugar.<br>Espere unos años y vuelva. ¡Buen día!</html>","JUEGO NO APTO PARA MENORES DE 3 AÑOS",3);
             }else{
                 
             }
