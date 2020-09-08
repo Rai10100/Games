@@ -39,62 +39,54 @@ class Principal extends javax.swing.JFrame{
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"Hubo un error en la carga del ícono");
         }
-        
         this.setLayout(new BorderLayout());
-        
-        
-       
-        
-        
+        btnLaberinto=new JButton("LABERINTO");
         btnVivorita=new JButton("VIVORITA");
         btnMemorama=new JButton("MEMORAMA");
-        
-         btnMemorama.addActionListener(new java.awt.event.ActionListener() {
+        btnMemorama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                  new Memorama().setVisible(true); 
                   ocultar();
             }
         });
-         btnVivorita.addActionListener(new java.awt.event.ActionListener() {
+        btnVivorita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                  new Vivorita().setVisible(true); 
                  ocultar();
                  }
-
-           
         });
-        
-        
-        
-        //btnMemorama.setPreferredSize(dimBtn);
-        
-
+        btnLaberinto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                 new Laberinto().setVisible(true);
+                  ocultar();
+            }
+        });
         titulo=new JLabel("¿Qué quieres jugar?");
-        mifuente=new Font("Century Gothic",2,20);
+        mifuente=new Font("Century Gothic",2,27);
         titulo.setFont(mifuente);
         
         titulo.setOpaque(true);
         titulo.setBackground(new Color(129, 135, 132));
         this.getContentPane().add(new PanelNorth(),BorderLayout.NORTH);
         this.getContentPane().add(new PanelSouth(),BorderLayout.CENTER);
-        
     }
     
-     public void ocultar(){
-             this.dispose();
-         }
+    public void ocultar(){
+        this.dispose();
+    }
+    
     Font mifuente;
     Dimension dimBtn;
-    JButton btnVivorita,btnMemorama;
+    JButton btnVivorita,btnMemorama,btnLaberinto;
     JLabel titulo;
-    private int widht=300,height=130;
+    private int widht=400,height=130;
     
     class PanelNorth extends JPanel{
         public PanelNorth(){
             this.setBackground(new Color(154, 163, 158));
             this.add(titulo);
             this.setPreferredSize(dimBtn);
-            
+            titulo.setFocusable(true);
         }
     }
     class PanelSouth extends JPanel{
@@ -103,6 +95,8 @@ class Principal extends javax.swing.JFrame{
             this.setLayout(new FlowLayout(FlowLayout.CENTER,20,15));
             this.add(btnVivorita);
             this.add(btnMemorama);
+            this.add(btnLaberinto);
+            
         }
     }
     

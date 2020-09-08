@@ -9,8 +9,6 @@ import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -75,7 +73,9 @@ public class Laberinto extends javax.swing.JFrame{
             dudas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 JOptionPane.showMessageDialog(null,"<html>¿Tienes dudas? El juego es muy sencillo jaja<br>"
-                        + "Para salir del juego pulsa la tecla 'ESC'<br>Para moverte usa las flechas de tu teclado<br><br>Si quiere más ayuda vuelve al juego y pulsa 'A' de 'Ayuuuda'</html>","¿¿¿¡Enserio!???",-1);
+                        + "Para salir del juego pulsa la tecla 'ESC'<br>Para moverte usa las flechas de tu teclado<br>"
+                        + "Para arrastrar la ventana pulsa el título del juego<br><br>"
+                        + "Si quieres más ayuda vuelve al juego y pulsa 'A' de 'Ayuuuda'</html>","¿¿¿¡Enserio!???",-1);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 dudas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/LBdudasOsc.png")));
@@ -124,7 +124,7 @@ public class Laberinto extends javax.swing.JFrame{
      
      
     public static void main(String[] args) {
-        new Laberinto().setVisible(true);
+        Frames.Inicio.main(args);
     }
     private Enredadera enredadera=new Enredadera();
     private FondoAbajo fondoBajo = new FondoAbajo();
@@ -132,8 +132,6 @@ public class Laberinto extends javax.swing.JFrame{
     private int wFrame=999, hFrame=629, presionada,xpos,ypos ;
     private JLabel titulo, dudas,nivel,nivel2;
     private static int Bouncex=40,Bouncey=40,Bouncetamx=38,Bouncetamy=38;
-    
-    
     
     class Bounce {
 //         Teclado teclas=new Teclado();
@@ -173,7 +171,7 @@ public class Laberinto extends javax.swing.JFrame{
             if (Nivel==0){
                 enredadera.estableceLaberinto(0);
 //                fondoBajo.repaint();
-                JOptionPane.showMessageDialog(null,"<html>Tú eres la bolita morada,la meta es el cuadro rosita.<br> Muévete con las flechas de dirección. "
+                JOptionPane.showMessageDialog(null,"<html>Tú eres la bolita morada, la meta es el cuadro rosita.<br> Muévete con las flechas de dirección. "
                         + "Para salir pulsa 'ESC'<br>¡Ya sabes que hacer! </html>","Bienvenid@",1);
             }else if(Nivel==1){
                 nivel2.setText("1");
