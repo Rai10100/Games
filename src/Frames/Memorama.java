@@ -26,7 +26,7 @@ public class Memorama extends JFrame {
             Image miIcono=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/memoramaIco.png"));
             setIconImage(miIcono);
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Hubo un errror al cargar la imagen del ícono. Error "+e);
+            JOptionPane.showMessageDialog(null, "Hubo un error al cargar la imagen del ícono. Error "+e);
         }
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();  //Guarda el tamaño de la pantalla donde se ejecuta
         this.setLocation(dim.width/2-wFrame/2,dim.height/2-hFrame/2); //Establece la ubicación del Frame en el centro de la pantalla 
@@ -231,16 +231,21 @@ public class Memorama extends JFrame {
         
         public void victoria(){ //Este método revisa cuantos pares se han encontrado
             if(pares==8){
-                int joder=JOptionPane.showConfirmDialog(null,"¡¡Ganaste!!", "Felicidades", -1, 1);
-                if(joder==0){
-                   System.exit(0);
+                int empezar=JOptionPane.showConfirmDialog(null,"¡¡Ganaste!!/n ¿Deseas volver a empezar?", "Felicidades", 0, 3);
+                if(empezar==1){//Empezar==no
+                    System.exit(0);
+               }else if(empezar==0){//empezar==SI
+                  volverAEmpezar();
                }
            }
        }
        
+        
+        
         public void front(){ //Se "voltea" la carta, o dicho mejor, se le asigna el ícono frontal
            this.setIcon(imagenFront);
         }
+        
        
         public void back(){ //Se le asigna el ícono por defecto, osea el de la parte trasera de la carta.
             this.setIcon(imagen);
@@ -259,6 +264,10 @@ public class Memorama extends JFrame {
         private ImageIcon imagenFront, imagen=new ImageIcon(getClass().getResource("/Images/cardBAck.png")); //Cada carta tiene dos imágenes o íconos, el frontal y el trasero
         private fondoAbajo fondoCartas;
     }
+     public void volverAEmpezar(){
+         this.dispose();
+         new Memorama().setVisible(true);
+        }
     
     class Teclado extends KeyAdapter{ //Esta clase es la encargada del teclado y sus funciones. 
         public void keyPressed (KeyEvent tecla){
